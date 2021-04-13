@@ -20,7 +20,7 @@ export class GameComponent implements OnInit {
   ngOnInit(): void {
 
     this.newGame();
-    this            //firestore valuechanges implemented
+    this            //firestore valuechanges download
       .firestore
       .collection('games')
       .valueChanges()
@@ -33,6 +33,9 @@ export class GameComponent implements OnInit {
   //create new game
   newGame() {
     this.game = new Game();
+    this.firestore    //firestore upload
+      .collection('games')
+      .add( {'hey':'test123'});
   }
 
   //pick top card
