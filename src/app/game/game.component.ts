@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from 'src/models/game';
-import {MatDialog} from '@angular/material/dialog'; //, MatDialogRef, MAT_DIALOG_DATA
+import { MatDialog } from '@angular/material/dialog'; //, MatDialogRef, MAT_DIALOG_DATA
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -14,28 +15,38 @@ export class GameComponent implements OnInit {
   pickCardAnimation = false;
   currentCard: string = '';
   game!: Game;
-  
-  constructor(private firestore: AngularFirestore ,public dialog: MatDialog) {}
+
+  constructor(private router: Router, private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) { }
 
   ngOnInit(): void {
 
     this.newGame();
-    this            //firestore valuechanges download
+    this.route.params.subscribe((params) => {
+      console.log(params.id);
+      this            //firestore valuechanges download
       .firestore
       .collection('games')
+      .doc(params.id) //get url 
       .valueChanges()
-      .subscribe((game) => {
+      .subscribe((game:any) => {
         console.log('Game update: ', game);
+        this.game.currentPlayer = game.currentPlayer;
+        this.game.playedCards = game.playedCards;
+        this.game.players = game.players;
+        this.game.stack = game.stack;
       });
-    
+    });
+
+   
+
   }
 
   //create new game
   newGame() {
     this.game = new Game();
-    this.firestore    //firestore upload
-      .collection('games')
-      .add( this.game.toJson());  //see game.ts
+    //this.firestore    //firestore upload
+    //  .collection('games')
+    //  .add(this.game.toJson());  //see game.ts
   }
 
   //pick top card
@@ -45,13 +56,13 @@ export class GameComponent implements OnInit {
       console.log(this.currentCard);
       this.pickCardAnimation = true;  //animate top card
 
-      this.game.currentPlayer ++;
+      this.game.currentPlayer++;
       this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;   //cycle current player after each drawn card
 
       setTimeout(() => {
         document.getElementById('topcard')?.classList.add('d-none');
       }, 1000);
-      
+
       setTimeout(() => {
         this.game.playedCards.push(this.currentCard); //push played card into playedCards array
         this.pickCardAnimation = false;
@@ -60,13 +71,14 @@ export class GameComponent implements OnInit {
   }
 
   //add player
-    openDialog(): void {
+  openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
 
-    dialogRef.afterClosed().subscribe((name:string) => {
-      if(name && name.length>0) {
-      this.game.players.push(name) 
-      console.log('Player ' + name + ' added.');}
+    dialogRef.afterClosed().subscribe((name: string) => {
+      if (name && name.length > 0) {
+        this.game.players.push(name)
+        console.log('Player ' + name + ' added.');
+      }
     });
   }
 
@@ -75,5 +87,5 @@ export class GameComponent implements OnInit {
     this.game.players = [];
   }*/
 
- 
+
 }
