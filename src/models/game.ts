@@ -13,6 +13,15 @@ export class Game {
     }
     shuffle(this.stack);
     }
+
+    public toJson() {   //converts game object to json (firebase accepts json!)
+      return {
+        players: this.players,
+        stack: this.stack,
+        playedCards: this.playedCards,
+        currentPlayer: this.currentPlayer
+      }
+    }
 }
 
 function shuffle(array) {
