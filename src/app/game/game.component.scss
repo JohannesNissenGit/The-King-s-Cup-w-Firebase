@@ -1,0 +1,91 @@
+//general
+
+.d-none{
+    display: none;
+}
+
+
+.player-position{
+    position: absolute;
+    right: 0;
+}
+
+//playing field
+.field {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100%;
+    //background-image: url('/Modul13_KingsCup_dist/assets/img/board.jpg'); //prod
+    background-image: url('/assets/img/board.jpg'); //dev
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+//card stack (left)
+.card-stack{
+    position: relative;
+    img {
+        position: absolute;
+        width: 150px;
+    }
+}
+
+//card on top of stack
+.top-card{
+    cursor: pointer;
+    transition: all 125ms ease-in-out;
+    &:hover {
+        transform: scale(1.1) translateY(-20px);
+        
+    }
+}
+//animation draw card
+.pick-card {
+    transition: all 125ms ease-in-out;
+    animation: pick-card-animation 1s ease-in-out forwards;
+    transform: translateX(300px) translateY(-70px) rotate(15deg); //end position 100%
+}
+
+@keyframes pick-card-animation {
+    0% {
+        transform: scale(1) ;
+    }
+
+    30%{
+        transform: scale(1.8) ;
+    }
+    60%{
+        transform: scale(1.9) ;
+    }
+    
+    100%{
+        transform: scale(1.65) ;
+        transform: translateX(300px) translateY(-70px) rotate(15deg);
+    }
+
+}
+
+//stack of played cards (right)
+.played-card{
+    right: 35px; //see html top card style
+    transform: translateX(300px) translateY(-70px) rotate(15deg); //end position 100%
+}
+
+// + button style
+.button-add {
+    position: absolute;
+    right: 40px;
+    bottom: 32px;
+}
+
+//rule display
+.pin-bottom {
+    position: absolute;
+    bottom: 250px;
+    left: 100px;
+    right: 100px;
+ 
+}

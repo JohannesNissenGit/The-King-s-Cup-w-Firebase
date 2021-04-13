@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "kings-72466": {
+      "hosting": {
+        "Modul13KingsCupGame": [
+          "kings-72466"
+        ]
+      }
+    }
+  }
+}
