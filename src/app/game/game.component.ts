@@ -52,23 +52,28 @@ export class GameComponent implements OnInit {
 
   //pick top card
   takeCard() {
-    if (!this.game.pickCardAnimation) {
-      this.game.currentCard = this.game.stack.pop()!;
-      console.log(this.game.currentCard);
-      this.game.pickCardAnimation = true;  //animate top card
-      this.game.currentPlayer++;
-      this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;   //cycle current player after each drawn card
-      this.saveGame();
-      
-      setTimeout(() => {
-        document.getElementById('topcard')?.classList.add('d-none');
-      }, 1000);
-
-      setTimeout(() => {
-        this.game.playedCards.push(this.game.currentCard); //push played card into playedCards array
-        this.game.pickCardAnimation = false;
+    if (this.game.players.length > 0) {
+      if (!this.game.pickCardAnimation) {
+        this.game.currentCard = this.game.stack.pop()!;
+        console.log(this.game.currentCard);
+        this.game.pickCardAnimation = true;  //animate top card
+        this.game.currentPlayer++;
+        this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;   //cycle current player after each drawn card
         this.saveGame();
-      }, 1000);
+
+        setTimeout(() => {
+          document.getElementById('topcard')?.classList.add('d-none');
+        }, 1000);
+
+        setTimeout(() => {
+          this.game.playedCards.push(this.game.currentCard); //push played card into playedCards array
+          this.game.pickCardAnimation = false;
+          this.saveGame();
+        }, 1000);
+      }
+    }
+    else {
+      alert('Please add players before starting the game (+ Button).')
     }
   }
 
@@ -80,7 +85,7 @@ export class GameComponent implements OnInit {
       if (name && name.length > 0) {
         this.game.players.push(name)
         console.log('Player ' + name + ' added.');
-        this.saveGame(); 
+        this.saveGame();
       }
     });
   }
