@@ -12,8 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class GameComponent implements OnInit {
 
-  pickCardAnimation = false;
-  currentCard: string = '';
+
   game!: Game;
   gameId!: string;
 
@@ -36,6 +35,8 @@ export class GameComponent implements OnInit {
           this.game.playedCards = game.playedCards;
           this.game.players = game.players;
           this.game.stack = game.stack;
+          this.game.pickCardAnimation = game.pickCardAnimation;
+          this.game.currentCard = game.currentCard
         });
     });
 
@@ -51,21 +52,21 @@ export class GameComponent implements OnInit {
 
   //pick top card
   takeCard() {
-    if (!this.pickCardAnimation) {
-      this.currentCard = this.game.stack.pop()!;
-      console.log(this.currentCard);
-      this.pickCardAnimation = true;  //animate top card
-      this.saveGame();
+    if (!this.game.pickCardAnimation) {
+      this.game.currentCard = this.game.stack.pop()!;
+      console.log(this.game.currentCard);
+      this.game.pickCardAnimation = true;  //animate top card
       this.game.currentPlayer++;
       this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;   //cycle current player after each drawn card
-
+      this.saveGame();
+      
       setTimeout(() => {
         document.getElementById('topcard')?.classList.add('d-none');
       }, 1000);
 
       setTimeout(() => {
-        this.game.playedCards.push(this.currentCard); //push played card into playedCards array
-        this.pickCardAnimation = false;
+        this.game.playedCards.push(this.game.currentCard); //push played card into playedCards array
+        this.game.pickCardAnimation = false;
         this.saveGame();
       }, 1000);
     }

@@ -7,17 +7,17 @@ class="player-position" ></app-player>
 <div class="card-stack">
    <!--cards stack-->
     <img [ngStyle]="{'right.px':i*9}" *ngFor='let c of [0,1,2,3]; let i = index;' src="./assets/img/cards/card_cover.png" alt="">
-    <img (click)="takeCard()" [class.pick-card]="pickCardAnimation" class="top-card" style="right: 35px" src="./assets/img/cards/card_cover.png" alt=""> <!--top card-->
+    <img (click)="takeCard()" [class.pick-card]="game.pickCardAnimation" class="top-card" style="right: 35px" src="./assets/img/cards/card_cover.png" alt=""> <!--top card-->
 
 <!--played cards stack-->
     <img *ngFor='let card of game.playedCards; let i = index;' class="played-card" src="./assets/img/cards/{{ card }}.png" alt="">
 
 <!--top card animation-->
-    <img (click)="takeCard()" *ngIf="pickCardAnimation" class="pick-card" id="topcard" style="right: 35px" src="./assets/img/cards/{{ currentCard }}.png" alt="">
+    <img (click)="takeCard()" *ngIf="game.pickCardAnimation" class="pick-card" id="topcard" style="right: 35px" src="./assets/img/cards/{{ game.currentCard }}.png" alt="">
 </div>
 
 <!--rule field-->
-<app-game-info class="pin-bottom" [card]="currentCard"></app-game-info>
+<app-game-info class="pin-bottom" [card]="game.currentCard"></app-game-info>
 
 <!-- + button-->
 <button (click)="openDialog()" class="button-add" mat-fab color="primary" aria-label="add a player">
