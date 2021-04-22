@@ -89,12 +89,12 @@
 // + button style
 .button-add {
     position: absolute;
-    right: 40px;
-    top: 25px;
+    right: 30px;
+    bottom:250px;
 
     @media(max-width: 720px){
         right: 10px;
-        bottom:200px;
+         top: 86px;
     }
 }
 
