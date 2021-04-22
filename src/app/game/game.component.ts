@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog'; //, MatDialogRef, MAT_DIAL
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PlayerEditComponent } from '../player-edit/player-edit.component';
 
 @Component({
   selector: 'app-game',
@@ -32,8 +33,9 @@ export class GameComponent implements OnInit {
         .subscribe((game: any) => {
           console.log('Game update: ', game);
           this.game.currentPlayer = game.currentPlayer;
-          this.game.playedCards = game.playedCards;
+          this.game.playedCards = game.playedCards; 
           this.game.players = game.players;
+          this.game.player_images = game.player_images;
           this.game.stack = game.stack;
           this.game.pickCardAnimation = game.pickCardAnimation;
           this.game.currentCard = game.currentCard
@@ -82,19 +84,15 @@ export class GameComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
 
     dialogRef.afterClosed().subscribe((name: string) => {
-      if (name && name.length > 0) {
-        this.game.players.push(name)
-        console.log('Player ' + name + ' added.');
-        this.saveGame();
-      }
+     if (name && name.length > 0) {
+       this.game.players.push(name);
+       this.game.player_images.push('monkey.png')
+       this.saveGame();
+     }
     });
   }
 
-  /*//clear players
-  deleteAllPlayers() {
-    this.game.players = [];
-  }*/
-
+  
   /**
    * saves current state of game, transfer to firebase 
    */
@@ -106,4 +104,15 @@ export class GameComponent implements OnInit {
       .update(this.game.toJson());
   }
 
+
+ /*//edit player image
+  }*/
+  editPlayer(playerId: number) {
+    const dialogRef = this.dialog.open(PlayerEditComponent);
+
+    dialogRef.afterClosed().subscribe((change: string) => {
+     this.game.player_images[playerId] = change;
+     this.saveGame();
+    });
+  }
 }
