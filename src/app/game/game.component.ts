@@ -47,7 +47,16 @@ export class GameComponent implements OnInit {
 
   }
 
-  //create new game
+  /**
+   * back to main menu
+   */
+  backToMainMenu(){
+console.log('game closed.')
+this.router.navigateByUrl('');
+  }
+  /*
+  *create new game
+  */
   newGame() {
     this.game = new Game();
 
