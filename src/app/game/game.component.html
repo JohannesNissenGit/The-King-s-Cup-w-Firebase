@@ -17,8 +17,10 @@ class="player-position hide-mobile" ></app-player>
 <!--game over screen-->
 <div class="gameover-screen" *ngIf="gameOver">
 <img src="./assets/img/game_over.jpg" alt="">
-
 </div>
+
+<!--preloaded second card (hidden from view)-->
+<img class="preloadImage" src="./assets/img/cards/{{ game.stack[game.stack.length-1] }}.png" alt="">
 
 <!--playing field-->
 <div class="field" *ngIf="!gameOver">
