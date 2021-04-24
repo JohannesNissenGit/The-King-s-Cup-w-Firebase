@@ -1,3 +1,4 @@
+
 <!--desktop player container-->
 <app-player (click)="editPlayer(i)"  *ngFor="let player of game.players; let i = index;" [ngStyle]="{'top.px':130+i*70}" 
 [name]="player" 
@@ -13,8 +14,14 @@ class="player-position hide-mobile" ></app-player>
 [playerActive]="i == game.currentPlayer"></app-player-mobile>
 </div>
 
+<!--game over screen-->
+<div class="gameover-screen" *ngIf="gameOver">
+<img src="./assets/img/game_over.jpg" alt="">
+
+</div>
+
 <!--playing field-->
-<div class="field">
+<div class="field" *ngIf="!gameOver">
 <div class="card-stack">
    <!--cards stack-->
     <img [ngStyle]="{'right.px':i*9}" *ngFor='let c of [0,1,2,3]; let i = index;' src="./assets/img/cards/card_cover.png" alt="">

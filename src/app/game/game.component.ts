@@ -16,6 +16,7 @@ export class GameComponent implements OnInit {
 
   game!: Game;
   gameId!: string;
+  gameOver:boolean = false;
 
   constructor(private router: Router, private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) { }
 
@@ -54,7 +55,11 @@ export class GameComponent implements OnInit {
 
   //pick top card
   takeCard() {
-    if (this.game.players.length > 0) {
+    if (this.game.players.length > 0) {  //checks if players exists
+      if (this.game.stack.length == 0) { //checks if card stack is empty
+        this.gameOver = true;
+      }
+      else
       if (!this.game.pickCardAnimation) {
         this.game.currentCard = this.game.stack.pop()!;
         console.log(this.game.currentCard);
@@ -108,11 +113,16 @@ export class GameComponent implements OnInit {
  /*//edit player image
   }*/
   editPlayer(playerId: number) {
-    const dialogRef = this.dialog.open(PlayerEditComponent);
-
+    const dialogRef = this.dialog.open(PlayerEditComponent);  
     dialogRef.afterClosed().subscribe((change: string) => {
-     this.game.player_images[playerId] = change;
-     this.saveGame();
+      if(change) {
+        if (change == 'DELETE') {
+          this.game.players.splice(playerId,1);
+this.game.player_images.splice(playerId,1);
+        }
+        else {
+     this.game.player_images[playerId] = change;}
+     this.saveGame();}
     });
   }
 }

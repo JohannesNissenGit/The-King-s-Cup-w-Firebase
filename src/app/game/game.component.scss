@@ -138,3 +138,17 @@ app-player, app-player-mobile {
         filter: brightness(1.12);
     }
 }
+
+
+//game over screen
+.gameover-screen {
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img{
+        width: 100%;
+    }
+}
